@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEditorInternal;
@@ -7,17 +8,21 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
+    public event Action<float> ScreenIsTouched;
+    public event Action ScreenIsReleased;
     public static InputManager Instance => _instance;
+    
     Vector2 _firstTouchPosition, _currentTouchPosition;
-
+    bool _isScreenTouched;
     static InputManager _instance;
+    Camera _mainCamera;
 
     void Awake() {
         _instance = this;
+        _mainCamera = Camera.main;
     }
 
-    void Update()
-    {
+    void Update(){
         CheckForInput();
     }
 
@@ -31,8 +36,12 @@ public class InputManager : MonoBehaviour {
 
     void CheckForInput() {
         if (Input.GetMouseButtonDown(0)) {
-            _firstTouchPosition = Input.mousePosition;
-            print(_firstTouchPosition);
+            _firstTouchPosition = _mainCamera.ScreenToViewportPoint(Input.mousePosition);
+            ScreenIsTouched?.Invoke(_firstTouchPosition.x);
+        }
+
+        if (Input.GetMouseButtonUp(0) && !Input.GetMouseButton(0)) {
+            ScreenIsReleased?.Invoke();
         }
     }
     
