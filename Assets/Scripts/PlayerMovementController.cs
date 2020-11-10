@@ -10,7 +10,7 @@ public class PlayerMovementController : MonoBehaviour {
     float _touchPosition;
     bool _isScreenTouched = false;
     void Start() {
-        _playerSpeed = GameManager.Instance.PlayerSpeed;
+        _playerSpeed = GameManager.Instance.WorldSpeed;
         InputManager.Instance.ScreenIsTouched += OnScreenTouched;
         InputManager.Instance.ScreenIsReleased += OnScreenReleased;
     }
@@ -27,7 +27,7 @@ public class PlayerMovementController : MonoBehaviour {
     }
 
     void MoveForward() {
-        Vector3 newMoveDirection = Vector3.left * _playerSpeed * Time.deltaTime;
+        Vector3 newMoveDirection = Vector3.right * _playerSpeed * Time.deltaTime;
         var newPosition = transform.position + newMoveDirection;
         transform.position = newPosition;
     }
@@ -35,18 +35,14 @@ public class PlayerMovementController : MonoBehaviour {
     void Turn() {
         Vector3 TurnDirection = new Vector3();
         if (_touchPosition >= _screenCenterValue) {
-            TurnDirection = Vector3.forward * _turnSpeed * Time.deltaTime;
-            print("right");
+            TurnDirection = Vector3.back * _turnSpeed * Time.deltaTime;
         }
         else if (_touchPosition < _screenCenterValue) {
-            TurnDirection = Vector3.back * _turnSpeed * Time.deltaTime;
-            print("left");
+            TurnDirection = Vector3.forward * _turnSpeed * Time.deltaTime;
         }
         else {
             TurnDirection = Vector3.zero;
         }
-
-        print(TurnDirection);
 
         var newPosition = transform.position + TurnDirection;
         var clampedPosition = new Vector3(newPosition.x, newPosition.y,

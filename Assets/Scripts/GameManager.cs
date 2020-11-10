@@ -1,21 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     public static GameManager Instance => _instance;
-    public int PlayerSpeed => _playerSpeed;
+    public int WorldSpeed => _worldSpeed;
     
-    [SerializeField] int _playerSpeed;
+    [SerializeField] int _worldSpeed = default;
 
     static GameManager _instance;
-    void Start() {
+    void Awake() {
         _instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

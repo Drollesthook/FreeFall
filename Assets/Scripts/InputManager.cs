@@ -7,12 +7,13 @@ using UnityEditorInternal;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour {
+    [SerializeField] float _yInputThreshold = default;
 
     public event Action<float> ScreenIsTouched;
     public event Action ScreenIsReleased;
     public static InputManager Instance => _instance;
-    
-    Vector2 _firstTouchPosition, _currentTouchPosition;
+
+    Vector2 _firstTouchPosition;
     bool _isScreenTouched;
     static InputManager _instance;
     Camera _mainCamera;
@@ -30,13 +31,10 @@ public class InputManager : MonoBehaviour {
         return _firstTouchPosition;
     }
 
-    public Vector2 GetCurrentTouchPosition() {
-        return _currentTouchPosition;
-    }
-
     void CheckForInput() {
         if (Input.GetMouseButtonDown(0)) {
             _firstTouchPosition = _mainCamera.ScreenToViewportPoint(Input.mousePosition);
+            if (_firstTouchPosition.y > _yInputThreshold) return;
             ScreenIsTouched?.Invoke(_firstTouchPosition.x);
         }
 
