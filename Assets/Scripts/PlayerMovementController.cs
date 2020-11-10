@@ -9,15 +9,19 @@ public class PlayerMovementController : MonoBehaviour {
     
     float _touchPosition;
     bool _isScreenTouched = false;
+    Vector3 _playerStartPosition;
     void Start() {
+        _playerStartPosition = transform.position;
         _playerSpeed = GameManager.Instance.WorldSpeed;
         InputManager.Instance.ScreenIsTouched += OnScreenTouched;
         InputManager.Instance.ScreenIsReleased += OnScreenReleased;
+        GameManager.Instance.GameReseted += OnGameReseted;
     }
 
     void OnDestroy() {
         InputManager.Instance.ScreenIsTouched -= OnScreenTouched;
         InputManager.Instance.ScreenIsReleased -= OnScreenReleased;
+        GameManager.Instance.GameReseted -= OnGameReseted;
     }
 
     void Update() {
@@ -59,5 +63,9 @@ public class PlayerMovementController : MonoBehaviour {
 
     void OnScreenReleased() {
         _isScreenTouched = false;
+    }
+
+    void OnGameReseted() {
+        transform.position = _playerStartPosition;
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using Lean.Pool;
 
+using UnityEditor.PackageManager.Requests;
+
 using UnityEngine;
 
 public class TileSpawnManager : MonoBehaviour {
@@ -18,6 +20,11 @@ public class TileSpawnManager : MonoBehaviour {
         _spawnOffset = _tileLength * _renderDistance;
         _deSpawnOffset = _tileLength;
         StartCoroutine(CheckForDespawnTimer());
+        GameManager.Instance.GameReseted += OnGameReseted;
+    }
+
+    void OnDestroy() {
+        GameManager.Instance.GameReseted -= OnGameReseted;
     }
 
     void Update() {
@@ -45,8 +52,8 @@ public class TileSpawnManager : MonoBehaviour {
     }
     
     void Reset() {
-        for(int i = 0; i <= _tilesQueue.Count; i++) {
-            LeanPool.Despawn(_tilesQueue.Dequeue());
+        for(int i = 0; i < _tilesQueue.Count; i++) {
+            DespawnBlock();
         }
         _numberOfSpawnedTiles = 0;
         _overallLength = 0;
@@ -65,5 +72,9 @@ public class TileSpawnManager : MonoBehaviour {
             yield return new WaitForSeconds(0.5f);
             CheckForNeedToDespawn();
         }
+    }
+
+    void OnGameReseted() {
+        Reset();
     }
 }

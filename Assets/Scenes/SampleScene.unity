@@ -592,7 +592,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GAZU
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1519,7 +1519,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.1624598, y: 0.688191, z: -0.16245987, w: 0.68819094}
+  m_LocalRotation: {x: 0.16245982, y: 0.68819094, z: -0.16245985, w: 0.688191}
   m_LocalPosition: {x: -8, y: 5.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1798,7 +1798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1283308379
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1816,8 +1816,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -629}
-  m_SizeDelta: {x: 593.1978, y: 386.4599}
+  m_AnchoredPosition: {x: 385.9, y: 812.8}
+  m_SizeDelta: {x: 249.95782, y: 232.9053}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1283308380
 MonoBehaviour:
@@ -1861,7 +1861,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1283308381}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1806816720}
+        m_MethodName: ResetGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1283308381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1881,8 +1892,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: e35a574166df1404da180d221a77b7ba, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1964,7 +1975,7 @@ PrefabInstance:
     - target: {fileID: 8715327088379390738, guid: ecd8466f839df154ca561ff4d62b714d,
         type: 3}
       propertyPath: m_Name
-      value: Tile (1)
+      value: TestTile (1)
       objectReference: {fileID: 0}
     - target: {fileID: 8715327088379390738, guid: ecd8466f839df154ca561ff4d62b714d,
         type: 3}
@@ -2032,7 +2043,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1297367039}
-  m_LocalRotation: {x: 0.1624598, y: 0.688191, z: -0.16245987, w: 0.68819094}
+  m_LocalRotation: {x: 0.16245982, y: 0.68819094, z: -0.16245985, w: 0.688191}
   m_LocalPosition: {x: -8, y: 5.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3103,7 +3114,7 @@ PrefabInstance:
     - target: {fileID: 8715327088379390738, guid: ecd8466f839df154ca561ff4d62b714d,
         type: 3}
       propertyPath: m_Name
-      value: Tile
+      value: TestTile
       objectReference: {fileID: 0}
     - target: {fileID: 8715327088379390738, guid: ecd8466f839df154ca561ff4d62b714d,
         type: 3}

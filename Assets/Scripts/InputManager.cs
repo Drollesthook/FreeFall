@@ -27,10 +27,6 @@ public class InputManager : MonoBehaviour {
         CheckForInput();
     }
 
-    public Vector2 GetFirstTouchPosition() {
-        return _firstTouchPosition;
-    }
-
     void CheckForInput() {
         if (Input.GetMouseButtonDown(0)) {
             _firstTouchPosition = _mainCamera.ScreenToViewportPoint(Input.mousePosition);
