@@ -6,6 +6,7 @@ public class PlayerMovementController : MonoBehaviour {
     [SerializeField] float _screenCenterValue = default;
     [SerializeField] int _turnSpeed = default;
     int _playerSpeed = default;
+    Rigidbody _playerRb;
     
     float _touchPosition;
     bool _isScreenTouched = false;
@@ -16,6 +17,7 @@ public class PlayerMovementController : MonoBehaviour {
         InputManager.Instance.ScreenIsTouched += OnScreenTouched;
         InputManager.Instance.ScreenIsReleased += OnScreenReleased;
         GameManager.Instance.GameReseted += OnGameReseted;
+        _playerRb = GetComponent<Rigidbody>();
     }
 
     void OnDestroy() {
@@ -25,6 +27,7 @@ public class PlayerMovementController : MonoBehaviour {
     }
 
     void Update() {
+        //MoveForwardRb();
         MoveForward();
         if (!_isScreenTouched) return;
         Turn();
@@ -34,6 +37,10 @@ public class PlayerMovementController : MonoBehaviour {
         Vector3 newMoveDirection = Vector3.right * _playerSpeed * Time.deltaTime;
         var newPosition = transform.position + newMoveDirection;
         transform.position = newPosition;
+    }
+
+    void MoveForwardRb() {
+        _playerRb.AddForce(Vector3.right*_playerSpeed*10);
     }
 
     void Turn() {

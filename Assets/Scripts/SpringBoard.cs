@@ -11,13 +11,6 @@ public class SpringBoard : MonoBehaviour {
     [SerializeField] float RotationSpeed = default;
     [SerializeField] LayerMask _playerMask = default;
     
-    
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Plane") && IsPlayerFar()) ActivateBoard();
@@ -38,6 +31,5 @@ public class SpringBoard : MonoBehaviour {
     
     public void Deactivate() {
         transform.eulerAngles = Vector3.zero;
-        //transform.Rotate(Vector3.zero, Space.Self);
     }
 }
