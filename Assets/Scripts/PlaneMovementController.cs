@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaneMovementController : MonoBehaviour {
+
+    //[SerializeField] int _planeSpeedReducer = default;
     int _planeSpeed;
     Vector3 _planeStartPosition;
 
     void Start() {
         _planeStartPosition = transform.position;
-        _planeSpeed = GameManager.Instance.WorldSpeed - 5;
+        //_planeSpeed = GameManager.Instance.WorldSpeed - _planeSpeedReducer;
         GameManager.Instance.GameReseted += OnGameReseted;
     }
 
@@ -27,5 +29,9 @@ public class PlaneMovementController : MonoBehaviour {
 
     void OnGameReseted() {
         transform.position = _planeStartPosition;
+    }
+
+    public void SetSpeedReducer(int speedReducer) {
+        _planeSpeed = GameManager.Instance.WorldSpeed - speedReducer;
     }
 }

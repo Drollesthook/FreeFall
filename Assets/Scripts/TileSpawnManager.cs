@@ -19,7 +19,7 @@ public class TileSpawnManager : MonoBehaviour {
     void Start() {
         _spawnOffset = _tileLength * _renderDistance;
         _deSpawnOffset = _tileLength;
-        StartCoroutine(CheckForDespawnTimer());
+        //StartCoroutine(CheckForDespawnTimer());
         GameManager.Instance.GameReseted += OnGameReseted;
     }
 
@@ -52,9 +52,10 @@ public class TileSpawnManager : MonoBehaviour {
     }
     
     void Reset() {
-        for(int i = 0; i < _tilesQueue.Count; i++) {
-            DespawnBlock();
-        }
+        //for(int i = 0; i < _tilesQueue.Count; i++) {
+        //    DespawnBlock();
+        //}
+        LeanPool.DespawnAll();
         _numberOfSpawnedTiles = 0;
         _overallLength = 0;
     }

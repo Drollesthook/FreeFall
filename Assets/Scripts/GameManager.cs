@@ -3,7 +3,7 @@
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-    public event Action GameReseted;
+    public event Action NewLevelStarted, GameReseted, PlaneCaughtUp;
     public static GameManager Instance => _instance;
     public int WorldSpeed => _worldSpeed;
     
@@ -14,8 +14,17 @@ public class GameManager : MonoBehaviour {
         _instance = this;
     }
 
+    void Start() {
+        NewLevelStarted?.Invoke();
+    }
+
     public void ResetGame() {
         GameReseted?.Invoke();
+        NewLevelStarted?.Invoke();
+    }
+
+    public void CatchPlane() {
+        PlaneCaughtUp?.Invoke();
     }
 
 }
