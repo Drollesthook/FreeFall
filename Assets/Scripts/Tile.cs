@@ -6,10 +6,6 @@ using Lean.Pool;
 using UnityEngine;
 
 public class Tile : MonoBehaviour, IPoolable {
-    [SerializeField] int _tileLength = default;
-
-    public int TileLength => _tileLength;
-    
     SpringBoard[] _listOfSpringBoards;
 
     void Awake() {

@@ -18,28 +18,25 @@ public class Plane : MonoBehaviour {
         _listOfObstacleSpawners = GetComponentsInChildren<ObstacleSpawner>();
     }
 
-    void Start() {
-        GameManager.Instance.NewLevelStarted += OnLevelStarted;
-    }
-    
-    void OnDestroy() {
-        GameManager.Instance.NewLevelStarted -= OnLevelStarted;
-    }
-
     void Update() {
         if (_isPlayerNearby) return;
         CheckForPlayer();
     }
 
-    void SetPlaneSpeedReducer(int speedreducer) {
-        _planeMovementController.SetSpeedReducer(speedreducer);
-    }
-
-    void OnLevelStarted() {
+    void OnEnable() {
         StartObstacleSpawn();
         _isPlayerNearby = false;
         SetPlaneSpeedReducer(_planeSpeedReducer);
     }
+
+    void OnDisable() {
+        StopObstacleSpawn();
+    }
+
+    void SetPlaneSpeedReducer(int speedreducer) {
+        _planeMovementController.SetSpeedReducer(speedreducer);
+    }
+    
 
     void StartObstacleSpawn() {
         foreach (ObstacleSpawner spawner in _listOfObstacleSpawners) {

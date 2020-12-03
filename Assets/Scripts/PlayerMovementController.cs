@@ -8,71 +8,74 @@ public class PlayerMovementController : MonoBehaviour {
     int _playerSpeed = default;
     Rigidbody _playerRb;
     
-    float _touchPosition;
-    bool _isScreenTouched = false;
     Vector3 _playerStartPosition;
+    Vector3 _currentSpeed;
+
+    TouchState _currentTouchState;
+    enum TouchState {
+        Left,
+        Right,
+        Released
+    }
+    
     void Start() {
         _playerStartPosition = transform.position;
         _playerSpeed = GameManager.Instance.WorldSpeed;
-        InputManager.Instance.ScreenIsTouched += OnScreenTouched;
-        InputManager.Instance.ScreenIsReleased += OnScreenReleased;
         GameManager.Instance.GameReseted += OnGameReseted;
         _playerRb = GetComponent<Rigidbody>();
     }
 
     void OnDestroy() {
-        InputManager.Instance.ScreenIsTouched -= OnScreenTouched;
-        InputManager.Instance.ScreenIsReleased -= OnScreenReleased;
         GameManager.Instance.GameReseted -= OnGameReseted;
     }
 
-    void Update() {
-        //MoveForwardRb();
-        MoveForward();
-        if (!_isScreenTouched) return;
-        Turn();
+    void FixedUpdate() {
+        CalculateMoveVelocity();
+        TurnClamper();
+        MoveForwardRb();
     }
 
-    void MoveForward() {
-        Vector3 newMoveDirection = Vector3.right * _playerSpeed * Time.deltaTime;
-        var newPosition = transform.position + newMoveDirection;
-        transform.position = newPosition;
+    void Update() {
+        HandleInput();
     }
 
     void MoveForwardRb() {
-        _playerRb.AddForce(Vector3.right*_playerSpeed*10);
+        _playerRb.velocity = _currentSpeed;
     }
-
-    void Turn() {
-        Vector3 TurnDirection = new Vector3();
-        if (_touchPosition >= _screenCenterValue) {
-            TurnDirection = Vector3.back * _turnSpeed * Time.deltaTime;
-        }
-        else if (_touchPosition < _screenCenterValue) {
-            TurnDirection = Vector3.forward * _turnSpeed * Time.deltaTime;
-        }
-        else {
-            TurnDirection = Vector3.zero;
+    
+    void CalculateMoveVelocity() {
+        var currentVelocity = _playerRb.velocity;
+        _currentSpeed = new Vector3(_playerSpeed, currentVelocity.y, GetStrafeSpeed());
+    }
+    
+    float GetStrafeSpeed() {
+        if (_currentTouchState == TouchState.Released) {
+            return 0;
         }
 
-        var newPosition = transform.position + TurnDirection;
-        var clampedPosition = new Vector3(newPosition.x, newPosition.y,
-                                          Mathf.Clamp(newPosition.z, _minClampedZPos, _maxClampedZPos));
-
-        transform.position = clampedPosition;
-
+        return _currentTouchState == TouchState.Right ? -_turnSpeed : _turnSpeed;
     }
 
-    void OnScreenTouched(float touchPos) {
-        _touchPosition = touchPos;
-        _isScreenTouched = true;
+    void TurnClamper() {
+        var zPos = _playerRb.position.z;
+        var canGoLeft = zPos < _maxClampedZPos && _currentTouchState == TouchState.Left;
+        var canGoRight = zPos > _minClampedZPos && _currentTouchState == TouchState.Right;
+        if (!canGoLeft && !canGoRight) {
+            _currentSpeed.z = 0;
+        }
     }
 
-    void OnScreenReleased() {
-        _isScreenTouched = false;
+    void HandleInput() {
+        if (Input.GetMouseButton(0)) {
+            var touchPos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            var isRight = touchPos.x > _screenCenterValue;
+            _currentTouchState = isRight ? TouchState.Right : TouchState.Left;
+        } else {
+            _currentTouchState = TouchState.Released;
+        }
     }
-
     void OnGameReseted() {
         transform.position = _playerStartPosition;
+        _playerRb.velocity = Vector3.zero;
     }
 }
