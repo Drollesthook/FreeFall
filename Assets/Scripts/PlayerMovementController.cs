@@ -1,26 +1,38 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+
+using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour {
 
     [SerializeField] int _minClampedZPos = default, _maxClampedZPos = default;
-    [SerializeField] float _screenCenterValue = default;
+    [SerializeField] float _XScreenCenterValue = default;
+    [SerializeField] float _yInputThreshold = default;
     [SerializeField] int _turnSpeed = default;
-    int _playerSpeed = default;
+    [SerializeField] float _XRotationAngle = default;
+    [SerializeField] float _turnRotationTime = default;
+    [SerializeField] float _speedMultipyer = default;
+    float _playerSpeed = default;
     Rigidbody _playerRb;
     
     Vector3 _playerStartPosition;
     Vector3 _currentSpeed;
 
     TouchState _currentTouchState;
+    RotateState _currentRotateState;
     enum TouchState {
         Left,
         Right,
         Released
     }
+
+    enum RotateState {
+        Rotated,
+        Straight
+    }
     
     void Start() {
         _playerStartPosition = transform.position;
-        _playerSpeed = GameManager.Instance.WorldSpeed;
+        _playerSpeed = GameManager.Instance.WorldSpeed *_speedMultipyer;
         GameManager.Instance.GameReseted += OnGameReseted;
         _playerRb = GetComponent<Rigidbody>();
     }
@@ -37,6 +49,29 @@ public class PlayerMovementController : MonoBehaviour {
 
     void Update() {
         HandleInput();
+        RotateHandler();
+    }
+
+    void RotateHandler() {
+        if (_currentRotateState == RotateState.Straight) {
+            if (_currentTouchState == TouchState.Released) return;
+            if (_currentTouchState == TouchState.Left) {
+                RotateOnTurn(_XRotationAngle);
+                _currentRotateState = RotateState.Rotated;
+            }
+            if (_currentTouchState == TouchState.Right) {
+                RotateOnTurn(-_XRotationAngle);
+                _currentRotateState = RotateState.Rotated;
+            }
+        } else if(_currentTouchState == TouchState.Released) {
+            RotateOnTurn(0);
+            _currentRotateState = RotateState.Straight;
+        }
+    }
+
+    void RotateOnTurn(float xAngle) {
+        Vector3 newrotateAngle= new Vector3(xAngle,0,0);
+        transform.DORotate(newrotateAngle, _turnRotationTime);
     }
 
     void MoveForwardRb() {
@@ -68,7 +103,8 @@ public class PlayerMovementController : MonoBehaviour {
     void HandleInput() {
         if (Input.GetMouseButton(0)) {
             var touchPos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-            var isRight = touchPos.x > _screenCenterValue;
+            if (touchPos.y > _yInputThreshold) return;
+            var isRight = touchPos.x > _XScreenCenterValue;
             _currentTouchState = isRight ? TouchState.Right : TouchState.Left;
         } else {
             _currentTouchState = TouchState.Released;
