@@ -11,7 +11,10 @@ public class PlayerMovementController : MonoBehaviour {
     [SerializeField] float _XRotationAngle = default;
     [SerializeField] float _turnRotationTime = default;
     [SerializeField] float _speedMultipyer = default;
-    float _playerSpeed = default;
+    [SerializeField] Transform _visual = default;
+
+    bool _isPlayerMovable;
+    float _playerSpeed;
     Rigidbody _playerRb;
     
     Vector3 _playerStartPosition;
@@ -31,23 +34,30 @@ public class PlayerMovementController : MonoBehaviour {
     }
     
     void Start() {
+        _isPlayerMovable = true;
         _playerStartPosition = transform.position;
         _playerSpeed = GameManager.Instance.WorldSpeed *_speedMultipyer;
         GameManager.Instance.GameReseted += OnGameReseted;
+        GameManager.Instance.LevelCompleted += OnLevelEnded;
+        GameManager.Instance.LevelFailed += OnLevelEnded;
         _playerRb = GetComponent<Rigidbody>();
     }
 
     void OnDestroy() {
         GameManager.Instance.GameReseted -= OnGameReseted;
+        GameManager.Instance.LevelCompleted -= OnLevelEnded;
+        GameManager.Instance.LevelFailed -= OnLevelEnded;
     }
 
     void FixedUpdate() {
+        if(!_isPlayerMovable) return;
         CalculateMoveVelocity();
         TurnClamper();
         MoveForwardRb();
     }
 
     void Update() {
+        if (!_isPlayerMovable) return;
         HandleInput();
         RotateHandler();
     }
@@ -71,7 +81,7 @@ public class PlayerMovementController : MonoBehaviour {
 
     void RotateOnTurn(float xAngle) {
         Vector3 newrotateAngle= new Vector3(xAngle,0,0);
-        transform.DORotate(newrotateAngle, _turnRotationTime);
+        _visual.DORotate(newrotateAngle, _turnRotationTime);
     }
 
     void MoveForwardRb() {
@@ -110,7 +120,14 @@ public class PlayerMovementController : MonoBehaviour {
             _currentTouchState = TouchState.Released;
         }
     }
+
+    public void OnLevelEnded() {
+        _isPlayerMovable = false;
+        _playerSpeed = 0;
+    }
     void OnGameReseted() {
+        _isPlayerMovable = true;
+        _playerSpeed = GameManager.Instance.WorldSpeed *_speedMultipyer;
         transform.position = _playerStartPosition;
         _playerRb.velocity = Vector3.zero;
     }

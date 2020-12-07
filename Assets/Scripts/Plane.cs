@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Plane : MonoBehaviour {
 
-    [SerializeField] int _planeSpeedReducer = default;
+    [SerializeField] int _planeSpeedReducer = default, _planeFinaleSpeedReducer = default;
     [SerializeField] LayerMask _playerMask = default;
     [SerializeField] int _caughtRange = default;
     
@@ -54,7 +54,8 @@ public class Plane : MonoBehaviour {
         if (Physics.OverlapSphere(transform.position, _caughtRange, _playerMask).Length == 0) return;
         _isPlayerNearby = true;
         StopObstacleSpawn();
-        SetPlaneSpeedReducer(0);
+        SetPlaneSpeedReducer(_planeFinaleSpeedReducer);
+        GameManager.Instance.CatchPlane();
     }
     
     

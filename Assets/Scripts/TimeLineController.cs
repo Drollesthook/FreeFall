@@ -6,11 +6,22 @@ using UnityEngine;
 public class TimeLineController : MonoBehaviour {
     [SerializeField] PlayableDirector _winConditionPlayableDirector;
 
-    public void PlayWinConditionAnimation() {
+
+    void Start() {
+        GameManager.Instance.PlaneCaughtUp += OnPlaneCaughtUp;
+        GameManager.Instance.NewLevelStarted += OnNewLevelStarted;
+    }
+
+    void OnDestroy() {
+        GameManager.Instance.PlaneCaughtUp -= OnPlaneCaughtUp;
+        GameManager.Instance.NewLevelStarted -= OnNewLevelStarted;
+    }
+
+    public void OnPlaneCaughtUp() {
         _winConditionPlayableDirector.Play();
     }
 
-    public void StopWinConditionAnimation() {
+    public void OnNewLevelStarted() {
         _winConditionPlayableDirector.Stop();
     }
 }
