@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-    public event Action NewLevelStarted, GameReseted, PlaneCaughtUp, LevelCompleted, LevelFailed;
+    public event Action NewLevelStarted, GameReseted, PlaneCaughtUp, LevelCompleted, LevelFailed, PlayerCrashed;
     public static GameManager Instance => _instance;
     public int WorldSpeed => _worldSpeed;
     
@@ -28,11 +29,20 @@ public class GameManager : MonoBehaviour {
     }
 
     public void LevelCompletion() {
+        StartCoroutine(EndLevel());
         LevelCompleted?.Invoke();
     }
 
     public void LevelFailure() {
+        StartCoroutine(EndLevel());
         LevelFailed?.Invoke();
     }
 
+    public void PlayerCrashes() {
+        PlayerCrashed?.Invoke();
+    }
+    IEnumerator EndLevel() {
+        yield return new WaitForSeconds(4f);
+        ResetGame();
+    }
 }

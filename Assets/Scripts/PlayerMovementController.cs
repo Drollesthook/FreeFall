@@ -29,7 +29,8 @@ public class PlayerMovementController : MonoBehaviour {
     }
 
     enum RotateState {
-        Rotated,
+        RotatedOnLeft,
+        RotatedOnRight,
         Straight
     }
     
@@ -40,6 +41,7 @@ public class PlayerMovementController : MonoBehaviour {
         GameManager.Instance.GameReseted += OnGameReseted;
         GameManager.Instance.LevelCompleted += OnLevelEnded;
         GameManager.Instance.LevelFailed += OnLevelEnded;
+        GameManager.Instance.PlayerCrashed += OnPlayerCrashed;
         _playerRb = GetComponent<Rigidbody>();
     }
 
@@ -47,6 +49,7 @@ public class PlayerMovementController : MonoBehaviour {
         GameManager.Instance.GameReseted -= OnGameReseted;
         GameManager.Instance.LevelCompleted -= OnLevelEnded;
         GameManager.Instance.LevelFailed -= OnLevelEnded;
+        GameManager.Instance.PlayerCrashed -= OnPlayerCrashed;
     }
 
     void FixedUpdate() {
@@ -63,19 +66,25 @@ public class PlayerMovementController : MonoBehaviour {
     }
 
     void RotateHandler() {
-        if (_currentRotateState == RotateState.Straight) {
-            if (_currentTouchState == TouchState.Released) return;
-            if (_currentTouchState == TouchState.Left) {
+        if (_currentTouchState == TouchState.Released) {
+            if (_currentRotateState == RotateState.RotatedOnRight || _currentRotateState == RotateState.RotatedOnLeft) {
+                RotateOnTurn(0);
+                _currentRotateState = RotateState.Straight;
+            }
+        }
+
+        if (_currentTouchState == TouchState.Left) {
+            if (_currentRotateState != RotateState.RotatedOnLeft) {
                 RotateOnTurn(_XRotationAngle);
-                _currentRotateState = RotateState.Rotated;
-            }
-            if (_currentTouchState == TouchState.Right) {
+                _currentRotateState = RotateState.RotatedOnLeft;
+            }    
+        }
+        
+        if (_currentTouchState == TouchState.Right) {
+            if (_currentRotateState != RotateState.RotatedOnRight) {
                 RotateOnTurn(-_XRotationAngle);
-                _currentRotateState = RotateState.Rotated;
-            }
-        } else if(_currentTouchState == TouchState.Released) {
-            RotateOnTurn(0);
-            _currentRotateState = RotateState.Straight;
+                _currentRotateState = RotateState.RotatedOnRight;
+            }    
         }
     }
 
@@ -121,14 +130,25 @@ public class PlayerMovementController : MonoBehaviour {
         }
     }
 
-    public void OnLevelEnded() {
+    void OnLevelEnded() {
         _isPlayerMovable = false;
         _playerSpeed = 0;
     }
+
+    void OnPlayerCrashed() {
+        _isPlayerMovable = false;
+        _playerSpeed = 0;
+        _playerRb.velocity = new Vector3(1,0,0);
+    }
+    
+    
     void OnGameReseted() {
+        transform.SetParent(null);
+        _playerRb.isKinematic = false;
         _isPlayerMovable = true;
         _playerSpeed = GameManager.Instance.WorldSpeed *_speedMultipyer;
         transform.position = _playerStartPosition;
+        transform.eulerAngles = Vector3.zero;
         _playerRb.velocity = Vector3.zero;
     }
 }

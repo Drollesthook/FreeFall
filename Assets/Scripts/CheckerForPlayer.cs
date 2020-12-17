@@ -2,7 +2,8 @@
 
 public class CheckerForPlayer : MonoBehaviour {
     [SerializeField] bool _isThisWinTrigger;
-    [SerializeField] FixedJoint _fixedJoint;
+
+    GameObject _player;
 
     bool _isLevelCompleted;
     void Start() {
@@ -16,20 +17,25 @@ public class CheckerForPlayer : MonoBehaviour {
 
     void OnNewLevelStarted() {
         _isLevelCompleted = false;
-        if(_fixedJoint.connectedBody != null)
-        _fixedJoint.connectedBody = null;
     }
 
     void OnTriggerEnter(Collider other) {
         if (_isLevelCompleted) return;
         if (!other.CompareTag("Player")) return;
         if (_isThisWinTrigger) {
-            _fixedJoint.connectedBody = other.GetComponent<Rigidbody>();
+            print("LevelEnded");
+            _player = other.gameObject;
+            DeactivatePlayer();
             GameManager.Instance.LevelCompletion();
             _isLevelCompleted = true;
         } else {
             GameManager.Instance.LevelFailure();
             _isLevelCompleted = true;
         }
+    }
+
+    void DeactivatePlayer() {
+        _player.GetComponent<Rigidbody>().isKinematic = false;
+        _player.transform.SetParent(transform);
     }
 }
