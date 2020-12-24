@@ -45,7 +45,7 @@ public class TimeLineController : MonoBehaviour {
     }
 
     void OnPlayerCrashed() {
-        _crashCameraDirector.Play();
+        //_crashCameraDirector.Play();
     }
 
 }

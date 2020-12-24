@@ -6,18 +6,32 @@ using Lean.Pool;
 using UnityEngine;
 
 public class Tile : MonoBehaviour, IPoolable {
-    SpringBoard[] _listOfSpringBoards;
+    ConstructionSpawnPoint[] _listOfConstructionSpawnPoints;
+
+    int _currentLevelNumber;
 
     void Awake() {
-        _listOfSpringBoards = GetComponentsInChildren<SpringBoard>();
+        _listOfConstructionSpawnPoints = GetComponentsInChildren<ConstructionSpawnPoint>();
     }
 
     public void OnDespawn() {
-        foreach (SpringBoard get in _listOfSpringBoards) {
-            get.Deactivate();
+        foreach (ConstructionSpawnPoint point in _listOfConstructionSpawnPoints) {
+            point.Deactivate();
         }
     }
 
     public void OnSpawn() {
+        GetLevelNumber();
+        GetConstructions();
+    }
+
+    void GetLevelNumber() {
+        _currentLevelNumber = LevelManager.Instance.CurrentLevelNumber;
+    }
+
+    void GetConstructions() {
+        foreach (ConstructionSpawnPoint point in _listOfConstructionSpawnPoints) {
+            point.SpawnConstruction(_currentLevelNumber);
+        }
     }
 }

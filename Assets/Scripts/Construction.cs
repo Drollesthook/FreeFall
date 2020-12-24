@@ -3,21 +3,26 @@ using System.Collections.Generic;
 
 using DG.Tweening;
 
+using Lean.Pool;
+
 using UnityEngine;
 
-public class SpringBoard : MonoBehaviour {
-    [SerializeField] Vector3 _activatedRotation = default;
+public class Construction : MonoBehaviour
+{
     [SerializeField] float _safeDistant = default;
-    [SerializeField] float RotationSpeed = default;
-    [SerializeField] LayerMask _playerMask = default;
-    
+    [SerializeField] float _activatedPosition = default;
+    [SerializeField] float _riseTime;
+    [SerializeField] LayerMask _playerMask;
 
+    Vector3 _startPosition;
+    
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Plane") && IsPlayerFar()) ActivateBoard();
     }
-
+    
+    
     void ActivateBoard() {
-        transform.DORotate(_activatedRotation, RotationSpeed);
+        transform.DOMoveY(_activatedPosition, _riseTime);
     }
 
     bool IsPlayerFar() {
@@ -27,9 +32,5 @@ public class SpringBoard : MonoBehaviour {
     void OnDrawGizmos() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _safeDistant);
-    }
-    
-    public void Deactivate() {
-        transform.eulerAngles = Vector3.zero;
     }
 }
