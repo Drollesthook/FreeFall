@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-using Lean.Pool;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RagdollController : MonoBehaviour {
     [SerializeField] Transform _bike = default;

@@ -28,7 +28,7 @@ public class PlayerGravityScale : MonoBehaviour {
     }
 
     void OnDrawGizmos() {
-        Gizmos.color = Color.green;
+        Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, _raycastRadius);
     }
 }

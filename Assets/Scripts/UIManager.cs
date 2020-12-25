@@ -9,23 +9,31 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour {
 
     [SerializeField] Image _winScreen, _loseScreen;
-    [SerializeField] GameObject _gameplayScreen;
+    [SerializeField] GameObject _gameplayScreen, _mainMenuScreen;
     
     Color _endColor = new Color(255, 255, 255, 255);
     void Start() {
         GameManager.Instance.NewLevelStarted += OnNewLevelStarted;
         GameManager.Instance.LevelCompleted += OnLevelCompleted;
         GameManager.Instance.LevelFailed += OnLevelFailed;
+        GameManager.Instance.GameplayStarted += OnGameplayStarted;
     }
 
     void OnDestroy() {
         GameManager.Instance.NewLevelStarted -= OnNewLevelStarted;
         GameManager.Instance.LevelCompleted -= OnLevelCompleted;
         GameManager.Instance.LevelFailed -= OnLevelFailed;
+        GameManager.Instance.GameplayStarted -= OnGameplayStarted;
     }
 
     void OnNewLevelStarted() {
         DeactivateLevelEndedScreens();
+        _gameplayScreen.SetActive(false);
+        _mainMenuScreen.SetActive(true);
+    }
+
+    void OnGameplayStarted() {
+        _mainMenuScreen.SetActive(false);
         _gameplayScreen.SetActive(true);
     }
 

@@ -13,7 +13,7 @@ public class PlayerMovementController : MonoBehaviour {
     [SerializeField] float _speedMultipyer = default;
     [SerializeField] Transform _visual = default;
 
-    bool _isPlayerMovable;
+    bool _isPlayerMovable, _isPlayerControllable;
     float _playerSpeed;
     Rigidbody _playerRb;
     
@@ -23,9 +23,9 @@ public class PlayerMovementController : MonoBehaviour {
     TouchState _currentTouchState;
     RotateState _currentRotateState;
     enum TouchState {
+        Released,
         Left,
-        Right,
-        Released
+        Right
     }
 
     enum RotateState {
@@ -36,12 +36,14 @@ public class PlayerMovementController : MonoBehaviour {
     
     void Start() {
         _isPlayerMovable = true;
+        _isPlayerControllable = false;
         _playerStartPosition = transform.position;
         _playerSpeed = GameManager.Instance.WorldSpeed *_speedMultipyer;
         GameManager.Instance.GameReseted += OnGameReseted;
         GameManager.Instance.LevelCompleted += OnLevelEnded;
         GameManager.Instance.LevelFailed += OnLevelEnded;
         GameManager.Instance.PlayerCrashed += OnPlayerCrashed;
+        GameManager.Instance.GameplayStarted += OnGameplayStarted;
         _playerRb = GetComponent<Rigidbody>();
     }
 
@@ -50,6 +52,7 @@ public class PlayerMovementController : MonoBehaviour {
         GameManager.Instance.LevelCompleted -= OnLevelEnded;
         GameManager.Instance.LevelFailed -= OnLevelEnded;
         GameManager.Instance.PlayerCrashed -= OnPlayerCrashed;
+        GameManager.Instance.GameplayStarted -= OnGameplayStarted;
     }
 
     void FixedUpdate() {
@@ -60,7 +63,7 @@ public class PlayerMovementController : MonoBehaviour {
     }
 
     void Update() {
-        if (!_isPlayerMovable) return;
+        if (!_isPlayerControllable) return;
         HandleInput();
         RotateHandler();
     }
@@ -132,13 +135,21 @@ public class PlayerMovementController : MonoBehaviour {
 
     void OnLevelEnded() {
         _isPlayerMovable = false;
+        _isPlayerControllable = false;
         _playerSpeed = 0;
+        RotateOnTurn(0);
     }
 
     void OnPlayerCrashed() {
         _isPlayerMovable = false;
+        _isPlayerControllable = false;
         _playerSpeed = 0;
         _playerRb.velocity = new Vector3(1,0,0);
+        RotateOnTurn(0);
+    }
+
+    void OnGameplayStarted() {
+        _isPlayerControllable = true;
     }
     
     

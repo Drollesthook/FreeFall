@@ -1,10 +1,8 @@
-﻿using System.Collections;
-
-using UnityEngine.Playables;
+﻿using UnityEngine.Playables;
 using UnityEngine;
 
 public class TimeLineController : MonoBehaviour {
-    [SerializeField] PlayableDirector _winConditionPlayableDirector, _winCameraDirector, _failCameraDirector, _crashCameraDirector;
+    [SerializeField] PlayableDirector _winConditionPlayableDirector, _winCameraDirector, _failCameraDirector, _GameplayStartCameraDirector;
 
 
     void Start() {
@@ -12,7 +10,7 @@ public class TimeLineController : MonoBehaviour {
         GameManager.Instance.NewLevelStarted += OnNewLevelStarted;
         GameManager.Instance.LevelCompleted += OnLevelCompleted;
         GameManager.Instance.LevelFailed += OnLevelFailed;
-        GameManager.Instance.PlayerCrashed += OnPlayerCrashed;
+        GameManager.Instance.GameplayStarted += OnGamePlayStarted;
     }
 
     void OnDestroy() {
@@ -20,7 +18,7 @@ public class TimeLineController : MonoBehaviour {
         GameManager.Instance.NewLevelStarted -= OnNewLevelStarted;
         GameManager.Instance.LevelCompleted -= OnLevelCompleted;
         GameManager.Instance.LevelFailed -= OnLevelFailed;
-        GameManager.Instance.PlayerCrashed -= OnPlayerCrashed;
+        GameManager.Instance.GameplayStarted -= OnGamePlayStarted;
     }
 
     void OnPlaneCaughtUp() {
@@ -31,7 +29,7 @@ public class TimeLineController : MonoBehaviour {
         _winConditionPlayableDirector.Stop();
         _winCameraDirector.Stop();
         _failCameraDirector.Stop();
-        _crashCameraDirector.Stop();
+        _GameplayStartCameraDirector.Stop();
     }
 
     void OnLevelCompleted() {
@@ -44,8 +42,8 @@ public class TimeLineController : MonoBehaviour {
         _failCameraDirector.Play();
     }
 
-    void OnPlayerCrashed() {
-        //_crashCameraDirector.Play();
+    void OnGamePlayStarted() {
+        _GameplayStartCameraDirector.Play();
     }
 
 }

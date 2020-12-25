@@ -5,21 +5,22 @@ using UnityEngine;
 public class ConstructionSpawnPoint : MonoBehaviour {
     [SerializeField] int __lastEasyLevel = default;
 
-    Construction _construction;
+    Construction _constructionPrefab, _currentConstruction;
 
     public void SpawnConstruction(int currentLevelNumber) {
         GetConstruction(currentLevelNumber);
-        LeanPool.Spawn(_construction, transform.position, Quaternion.identity);
+        _currentConstruction = LeanPool.Spawn(_constructionPrefab, transform.position, Quaternion.identity);
     }
     
     public void Deactivate() {
-        LeanPool.Despawn(_construction);
+        if (!_currentConstruction.IsSpawned) return;
+        LeanPool.Despawn(_currentConstruction);
     }
     
     void GetConstruction(int currentLevelNumber) {
         if (currentLevelNumber <= __lastEasyLevel)
-            _construction = ConstructionsLibrary.Instance.GetEasyConstruction();
+            _constructionPrefab = ConstructionsLibrary.Instance.GetEasyConstruction();
         else 
-            _construction = ConstructionsLibrary.Instance.GetHardConstruction();
+            _constructionPrefab = ConstructionsLibrary.Instance.GetHardConstruction();
     }
 }

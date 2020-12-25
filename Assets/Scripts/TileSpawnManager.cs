@@ -6,20 +6,23 @@ using UnityEngine;
 
 public class TileSpawnManager : MonoBehaviour {
     [SerializeField] Tile _tile = default;
-    [SerializeField] Transform _player = default;
     [SerializeField] int _tileLength = default;
     [SerializeField] int _renderDistance = 1;
-    
+
+    Transform _player;
     float _playerXPos, _spawnOffset, _overallLength;
     int _numberOfSpawnedTiles;
     Queue<Tile> _tilesQueue = new Queue<Tile>();
+    
     void Start() {
         _spawnOffset = _tileLength * _renderDistance;
         GameManager.Instance.GameReseted += OnGameReseted;
+        LevelBuilder.Instance.PlayerSpawned += OnPlayerSpawned;
     }
 
     void OnDestroy() {
         GameManager.Instance.GameReseted -= OnGameReseted;
+        LevelBuilder.Instance.PlayerSpawned -= OnPlayerSpawned;
     }
 
     void Update() {
@@ -55,5 +58,9 @@ public class TileSpawnManager : MonoBehaviour {
 
     void OnGameReseted() {
         Reset();
+    }
+
+    void OnPlayerSpawned(Transform player) {
+        _player = player;
     }
 }
