@@ -7,10 +7,11 @@ public class VirtualCamerasController : MonoBehaviour {
 
    void Awake() {
       _cameras = GetComponentsInChildren<CinemachineVirtualCamera>();
+      LevelBuilder.Instance.PlayerSpawned += OnPlayerSpawned;
    }
 
    void Start() {
-      LevelBuilder.Instance.PlayerSpawned += OnPlayerSpawned;
+      //LevelBuilder.Instance.PlayerSpawned += OnPlayerSpawned;
    }
 
    void OnDestroy() {

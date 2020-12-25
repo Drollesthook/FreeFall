@@ -39,12 +39,14 @@ public class GameManager : MonoBehaviour {
     }
 
     public void PlayerCrashes() {
+        StartCoroutine(EndLevel());
         PlayerCrashed?.Invoke();
     }
 
     public void StartGameplay() {
         GameplayStarted?.Invoke();
     }
+    
     IEnumerator EndLevel() {
         yield return new WaitForSeconds(4f);
         ResetGame();

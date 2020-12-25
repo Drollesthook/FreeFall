@@ -18,6 +18,7 @@ public class Construction : MonoBehaviour, IPoolable {
 
     Vector3 _startPosition;
     bool _isSpawned;
+    Rigidbody _rb;
 
     void OnCollisionEnter(Collision other) {
         if(other.gameObject.CompareTag("Player") && _isDeadly)

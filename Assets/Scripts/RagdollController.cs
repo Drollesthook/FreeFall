@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 
 public class RagdollController : MonoBehaviour {
-    [SerializeField] Transform _bike = default;
-    
     Rigidbody[] _rigidbodies;
     CapsuleCollider[] _capsuleColliders;
     BoxCollider[] _boxColliders;
@@ -16,27 +14,14 @@ public class RagdollController : MonoBehaviour {
         _boxColliders = GetComponentsInChildren<BoxCollider>();
         turnOnKinematic();
         turnOffCollisions();
-        CountPartsStartPositions();
-        CountPartsStartRotations();
-        GameManager.Instance.NewLevelStarted += OnNewLevelStarted;
         GameManager.Instance.PlayerCrashed += OnPlayerCrashed;
     }
 
     void OnDestroy() {
-        GameManager.Instance.NewLevelStarted -= OnNewLevelStarted;
         GameManager.Instance.PlayerCrashed -= OnPlayerCrashed;
     }
 
-    void OnNewLevelStarted() {
-        turnOnKinematic();
-        turnOffCollisions();
-        GetBackToBike();
-        ReturnPartsOnPositions();
-        ReturnPartsOnRotations();
-    }
-
     void OnPlayerCrashed() {
-        GetRidOffBike();
         turnOffKinematic();
         turnOnCollisions();
         CreateSomeVelocityOnCrash();
@@ -70,47 +55,6 @@ public class RagdollController : MonoBehaviour {
         foreach (BoxCollider VARIABLE in _boxColliders) {
             VARIABLE.isTrigger = false;
         }
-    }
-
-    void CountPartsStartPositions() {
-        _partsStartPositions = new Vector3[_rigidbodies.Length];
-        for (int i = 0; i < _partsStartPositions.Length; i++) {
-            _partsStartPositions[i] = _rigidbodies[i].transform.localPosition;
-        }
-        _startPosition = transform.position;
-    }
-    
-    void CountPartsStartRotations() {
-        _partsStartRotations = new Vector3[_rigidbodies.Length];
-        for (int i = 0; i < _partsStartRotations.Length; i++) {
-            _partsStartRotations[i] = _rigidbodies[i].transform.localEulerAngles;
-        }
-        _startRotation = transform.eulerAngles;
-    }
-
-    void ReturnPartsOnPositions() {
-        if (_partsStartPositions == null) return;
-        for (int i = 0; i < _partsStartPositions.Length; i++) {
-            _rigidbodies[i].transform.localPosition = _partsStartPositions[i];
-        }
-
-        transform.position = _startPosition;
-    }
-
-    void ReturnPartsOnRotations() {
-        if (_partsStartRotations == null) return;
-        for (int i = 0; i < _partsStartRotations.Length; i++) {
-            _rigidbodies[i].transform.localEulerAngles = _partsStartRotations[i];
-        }
-        transform.eulerAngles = _startRotation;
-    }
-
-    void GetRidOffBike() {
-        transform.SetParent(null);
-    }
-
-    void GetBackToBike() {
-        transform.SetParent(_bike);
     }
 
     void CreateSomeVelocityOnCrash() {
