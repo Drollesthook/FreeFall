@@ -8,7 +8,7 @@ public class PlayerMovementController : MonoBehaviour {
     [SerializeField] float _XScreenCenterValue = default;
     [SerializeField] float _yInputThreshold = default;
     [SerializeField] int _turnSpeed = default;
-    [SerializeField] float _XRotationAngle = default;
+    [SerializeField] float _XRotationAngle = default, _yRotationAngle = default;
     [SerializeField] float _turnRotationTime = default;
     [SerializeField] float _speedMultipyer = default;
     [SerializeField] Transform _visual = default;
@@ -71,28 +71,28 @@ public class PlayerMovementController : MonoBehaviour {
     void RotateHandler() {
         if (_currentTouchState == TouchState.Released) {
             if (_currentRotateState == RotateState.RotatedOnRight || _currentRotateState == RotateState.RotatedOnLeft) {
-                RotateOnTurn(0);
+                RotateOnTurn(0,0);
                 _currentRotateState = RotateState.Straight;
             }
         }
 
         if (_currentTouchState == TouchState.Left) {
             if (_currentRotateState != RotateState.RotatedOnLeft) {
-                RotateOnTurn(_XRotationAngle);
+                RotateOnTurn(_XRotationAngle, _yRotationAngle);
                 _currentRotateState = RotateState.RotatedOnLeft;
             }    
         }
         
         if (_currentTouchState == TouchState.Right) {
             if (_currentRotateState != RotateState.RotatedOnRight) {
-                RotateOnTurn(-_XRotationAngle);
+                RotateOnTurn(-_XRotationAngle, -_yRotationAngle);
                 _currentRotateState = RotateState.RotatedOnRight;
             }    
         }
     }
 
-    void RotateOnTurn(float xAngle) {
-        Vector3 newrotateAngle= new Vector3(xAngle,0,0);
+    void RotateOnTurn(float xAngle, float yAngle) {
+        Vector3 newrotateAngle= new Vector3(xAngle,yAngle,0);
         _visual.DORotate(newrotateAngle, _turnRotationTime);
     }
 
@@ -137,7 +137,7 @@ public class PlayerMovementController : MonoBehaviour {
         _isPlayerMovable = false;
         _isPlayerControllable = false;
         _playerSpeed = 0;
-        RotateOnTurn(0);
+        RotateOnTurn(0,0);
     }
 
     void OnPlayerCrashed() {
@@ -145,7 +145,7 @@ public class PlayerMovementController : MonoBehaviour {
         _isPlayerControllable = false;
         _playerSpeed = 0;
         _playerRb.velocity = new Vector3(1,0,0);
-        RotateOnTurn(0);
+        RotateOnTurn(0,0);
     }
 
     void OnGameplayStarted() {

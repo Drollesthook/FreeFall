@@ -23,7 +23,6 @@ public class CheckerForPlayer : MonoBehaviour {
         if (_isLevelCompleted) return;
         if (!other.CompareTag("Player")) return;
         if (_isThisWinTrigger) {
-            print("LevelEnded");
             _player = other.gameObject;
             DeactivatePlayer();
             GameManager.Instance.LevelCompletion();

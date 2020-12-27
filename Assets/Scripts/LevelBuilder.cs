@@ -7,7 +7,9 @@ using Random = UnityEngine.Random;
 public class LevelBuilder : MonoBehaviour {
     public event Action<Transform> PlayerSpawned;
     public static LevelBuilder Instance => _instance;
-    
+
+    [SerializeField] bool _isDebug = default;
+    [SerializeField] Tile _debugTile = default;
     [SerializeField] TileSpawnManager _tileSpawnManager = default;
     [SerializeField] List<Tile> _tilesLibrary = default;
     [SerializeField] List<Plane> _planesLibrary = default;
@@ -51,6 +53,7 @@ public class LevelBuilder : MonoBehaviour {
     }
 
     Tile GetNewTile() {
+        if (_isDebug) return _debugTile;
         int i = Random.Range(0, _tilesLibrary.Count);
         return _tilesLibrary[i];
     }
