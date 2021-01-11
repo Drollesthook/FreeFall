@@ -1422,11 +1422,12 @@ MonoBehaviour:
   _maxClampedZPos: 4
   _XScreenCenterValue: 0.5
   _yInputThreshold: 0.35
-  _turnSpeed: 10
-  _XRotationAngle: 15
-  _yRotationAngle: -15
-  _turnRotationTime: 0.25
-  _speedMultipyer: 1
+  _turnSpeed: 7
+  _XRotationAngle: 20
+  _yRotationAngle: -45
+  _turnRotationTime: 0.2
+  _rotateToZeroTime: 0.2
+  _speedMultiplier: 1
   _visual: {fileID: 4030858216204945081}
 --- !u!114 &4030858214418799665
 MonoBehaviour:

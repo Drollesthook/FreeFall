@@ -7,29 +7,28 @@ using Lean.Pool;
 
 using UnityEngine;
 
-public class Construction : MonoBehaviour, IPoolable {
-    public bool IsSpawned => _isSpawned;
+public class Construction : MonoBehaviour {
     
-    [SerializeField] bool _isDeadly = default;
     [SerializeField] float _safeDistant = default;
     [SerializeField] float _activatedPosition = default;
     [SerializeField] float _riseTime, _delayTime;
     [SerializeField] LayerMask _playerMask;
 
     Vector3 _startPosition;
-    bool _isSpawned;
-    Rigidbody _rb;
+    ConstructionPart[] _constructionParts;
 
-    void OnCollisionEnter(Collision other) {
-        if(other.gameObject.CompareTag("Player") && _isDeadly)
-            GameManager.Instance.PlayerCrashes();
+    void Start() {
+        _constructionParts = GetComponentsInChildren<ConstructionPart>();
     }
 
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Plane")) StartCoroutine(ActivateWithDelay());
     }
-    
-    
+
+    void OnDestroy() {
+        DOTween.Kill(transform);
+    }
+
     void ActivateBoard() {
         if (!IsPlayerFar()) return;
         transform.DOMoveY(_activatedPosition, _riseTime);
@@ -44,17 +43,17 @@ public class Construction : MonoBehaviour, IPoolable {
         Gizmos.DrawWireSphere(transform.position, _safeDistant);
     }
 
+    void DeactivateKinematicOnChildrens() {
+        if (_constructionParts.Length == 0) return;
+        foreach (ConstructionPart part in _constructionParts) {
+            part.DeactivateKinematic();
+        }
+    }
+
     IEnumerator ActivateWithDelay() {
         yield return new WaitForSeconds(_delayTime);
         ActivateBoard();
-        
-    }
-
-    public void OnSpawn() {
-        _isSpawned = true;
-    }
-
-    public void OnDespawn() {
-        _isSpawned = false;
+        yield return new WaitForSeconds(_riseTime);
+        DeactivateKinematicOnChildrens();
     }
 }

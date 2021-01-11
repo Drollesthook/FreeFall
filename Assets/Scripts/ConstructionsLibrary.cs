@@ -4,8 +4,8 @@ using UnityEngine;
 public class ConstructionsLibrary : MonoBehaviour {
     public static ConstructionsLibrary Instance => _instance;
     
-    [SerializeField] List<Construction> _easyConstructions = new List<Construction>();
-    [SerializeField] List<Construction> _hardConstructions = new List<Construction>();
+    [SerializeField] List<GameObject> _easyConstructions = new List<GameObject>();
+    [SerializeField] List<GameObject> _hardConstructions = new List<GameObject>();
 
     static ConstructionsLibrary _instance;
 
@@ -13,12 +13,12 @@ public class ConstructionsLibrary : MonoBehaviour {
         _instance = this;
     }
 
-    public Construction GetEasyConstruction() {
+    public GameObject GetEasyConstruction() {
         int i = Random.Range(0, _easyConstructions.Count);
         return _easyConstructions[i];
     }
     
-    public Construction GetHardConstruction() {
+    public GameObject GetHardConstruction() {
         int i = Random.Range(0, _hardConstructions.Count);
         return _hardConstructions[i];
     }

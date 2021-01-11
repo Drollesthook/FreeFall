@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour {
     public void ResetGame() {
         GameReseted?.Invoke();
         NewLevelStarted?.Invoke();
+        if (EndLevel() != null)
+            StopCoroutine(EndLevel());
     }
 
     public void CatchPlane() {

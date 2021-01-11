@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-using Lean.Pool;
+﻿using Lean.Pool;
 
 using UnityEngine;
 

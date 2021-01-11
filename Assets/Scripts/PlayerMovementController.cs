@@ -9,13 +9,14 @@ public class PlayerMovementController : MonoBehaviour {
     [SerializeField] float _yInputThreshold = default;
     [SerializeField] int _turnSpeed = default;
     [SerializeField] float _XRotationAngle = default, _yRotationAngle = default;
-    [SerializeField] float _turnRotationTime = default;
-    [SerializeField] float _speedMultipyer = default;
+    [SerializeField] float _turnRotationTime = default, _rotateToZeroTime;
+    [SerializeField] float _speedMultiplier = default;
     [SerializeField] Transform _visual = default;
 
     bool _isPlayerMovable, _isPlayerControllable;
     float _playerSpeed;
     Rigidbody _playerRb;
+    Sequence _turnSequence;
     
     Vector3 _playerStartPosition;
     Vector3 _currentSpeed;
@@ -38,7 +39,7 @@ public class PlayerMovementController : MonoBehaviour {
         _isPlayerMovable = true;
         _isPlayerControllable = false;
         _playerStartPosition = transform.position;
-        _playerSpeed = GameManager.Instance.WorldSpeed *_speedMultipyer;
+        _playerSpeed = GameManager.Instance.WorldSpeed *_speedMultiplier;
         GameManager.Instance.GameReseted += OnGameReseted;
         GameManager.Instance.LevelCompleted += OnLevelEnded;
         GameManager.Instance.LevelFailed += OnLevelEnded;
@@ -71,7 +72,7 @@ public class PlayerMovementController : MonoBehaviour {
     void RotateHandler() {
         if (_currentTouchState == TouchState.Released) {
             if (_currentRotateState == RotateState.RotatedOnRight || _currentRotateState == RotateState.RotatedOnLeft) {
-                RotateOnTurn(0,0);
+                RotateToZero();
                 _currentRotateState = RotateState.Straight;
             }
         }
@@ -92,8 +93,13 @@ public class PlayerMovementController : MonoBehaviour {
     }
 
     void RotateOnTurn(float xAngle, float yAngle) {
-        Vector3 newrotateAngle= new Vector3(xAngle,yAngle,0);
+        Vector3 newrotateAngle= new Vector3(xAngle,yAngle,_visual.rotation.z);
         _visual.DORotate(newrotateAngle, _turnRotationTime);
+    }
+
+    void RotateToZero() {
+        DOTween.Kill(_visual);
+        _visual.DORotate(Vector3.zero, _rotateToZeroTime);
     }
 
     void MoveForwardRb() {
@@ -137,7 +143,7 @@ public class PlayerMovementController : MonoBehaviour {
         _isPlayerMovable = false;
         _isPlayerControllable = false;
         _playerSpeed = 0;
-        RotateOnTurn(0,0);
+        RotateToZero();
     }
 
     void OnPlayerCrashed() {
@@ -145,7 +151,7 @@ public class PlayerMovementController : MonoBehaviour {
         _isPlayerControllable = false;
         _playerSpeed = 0;
         _playerRb.velocity = new Vector3(1,0,0);
-        RotateOnTurn(0,0);
+        RotateToZero();
     }
 
     void OnGameplayStarted() {
@@ -157,9 +163,14 @@ public class PlayerMovementController : MonoBehaviour {
         transform.SetParent(null);
         _playerRb.isKinematic = false;
         _isPlayerMovable = true;
-        _playerSpeed = GameManager.Instance.WorldSpeed *_speedMultipyer;
+        SetSpeedMultiplyer(1);
         transform.position = _playerStartPosition;
         transform.eulerAngles = Vector3.zero;
         _playerRb.velocity = Vector3.zero;
+    }
+
+    void SetSpeedMultiplyer(float newSpeedMultiplier) {
+        _speedMultiplier = newSpeedMultiplier;
+        _playerSpeed = GameManager.Instance.WorldSpeed *_speedMultiplier;
     }
 }

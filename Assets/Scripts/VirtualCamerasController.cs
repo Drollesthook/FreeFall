@@ -10,10 +10,6 @@ public class VirtualCamerasController : MonoBehaviour {
       LevelBuilder.Instance.PlayerSpawned += OnPlayerSpawned;
    }
 
-   void Start() {
-      //LevelBuilder.Instance.PlayerSpawned += OnPlayerSpawned;
-   }
-
    void OnDestroy() {
       LevelBuilder.Instance.PlayerSpawned -= OnPlayerSpawned;
    }
