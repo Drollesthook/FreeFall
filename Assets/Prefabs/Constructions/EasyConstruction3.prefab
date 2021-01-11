@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isDeadly: 1
+  _isBreakable: 0
 --- !u!54 &1787001436414299617
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -117,6 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isDeadly: 0
+  _isBreakable: 1
 --- !u!1 &4656356742333948759
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30e1ef939390c14da508fdf40d5e4ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _safeDistant: 25
+  _safeDistant: 35
   _activatedPosition: 4
   _riseTime: 1
   _delayTime: 0
@@ -182,7 +184,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 2
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 15, y: 0, z: 0}
 --- !u!1001 &227274324574578933
 PrefabInstance:
   m_ObjectHideFlags: 0

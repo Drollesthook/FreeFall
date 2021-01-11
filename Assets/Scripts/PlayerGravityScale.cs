@@ -37,7 +37,7 @@ public class PlayerGravityScale : MonoBehaviour {
 
     void RotateBike(float angle) {
         if (angle != 0)
-            _rigidbody.AddForce(new Vector3(angle,0,0).normalized* _tramplinAdditionalForce);
+            _rigidbody.AddRelativeForce(Vector3.right * _tramplinAdditionalForce);
         if (angle == _currentAngle)  return;
         _currentAngle = angle;
         Vector3 newrotateAngle= new Vector3(transform.rotation.x, transform.rotation.y,angle);

@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class ConstructionsLibrary : MonoBehaviour {
     public static ConstructionsLibrary Instance => _instance;
-    
+
+    [SerializeField] bool _isDebug;
+    [SerializeField] GameObject _debugConstruction = default;
     [SerializeField] List<GameObject> _easyConstructions = new List<GameObject>();
     [SerializeField] List<GameObject> _hardConstructions = new List<GameObject>();
 
@@ -14,11 +16,13 @@ public class ConstructionsLibrary : MonoBehaviour {
     }
 
     public GameObject GetEasyConstruction() {
+        if (_isDebug) return _debugConstruction;
         int i = Random.Range(0, _easyConstructions.Count);
         return _easyConstructions[i];
     }
     
     public GameObject GetHardConstruction() {
+        if (_isDebug) return _debugConstruction;
         int i = Random.Range(0, _hardConstructions.Count);
         return _hardConstructions[i];
     }

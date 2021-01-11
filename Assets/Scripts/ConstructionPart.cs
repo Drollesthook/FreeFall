@@ -2,7 +2,7 @@
 
 public class ConstructionPart : MonoBehaviour
 {
-    [SerializeField] bool _isDeadly = default;
+    [SerializeField] bool _isDeadly = default, _isBreakable = default;
     Rigidbody[] _rigidbodies;
     void OnCollisionEnter(Collision other) {
         if(other.gameObject.CompareTag("Player") && _isDeadly)
@@ -11,7 +11,7 @@ public class ConstructionPart : MonoBehaviour
 
 
     public void DeactivateKinematic() {
-        if(_isDeadly) return;
+        if(!_isBreakable) return;
         _rigidbodies = GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in _rigidbodies) {
             rb.isKinematic = false;

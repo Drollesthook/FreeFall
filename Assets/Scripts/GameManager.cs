@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour {
     
     [SerializeField] int _worldSpeed = default;
 
+    bool _isLevelEnds;
+
     static GameManager _instance;
     void Awake() {
         _instance = this;
@@ -22,8 +24,7 @@ public class GameManager : MonoBehaviour {
     public void ResetGame() {
         GameReseted?.Invoke();
         NewLevelStarted?.Invoke();
-        if (EndLevel() != null)
-            StopCoroutine(EndLevel());
+        _isLevelEnds = false;
     }
 
     public void CatchPlane() {
@@ -31,22 +32,28 @@ public class GameManager : MonoBehaviour {
     }
 
     public void LevelCompletion() {
-        StartCoroutine(EndLevel());
+        EndLevelWithDelay();
         LevelCompleted?.Invoke();
     }
 
     public void LevelFailure() {
-        StartCoroutine(EndLevel());
+        EndLevelWithDelay();
         LevelFailed?.Invoke();
     }
 
     public void PlayerCrashes() {
-        StartCoroutine(EndLevel());
+        EndLevelWithDelay();
         PlayerCrashed?.Invoke();
     }
 
     public void StartGameplay() {
         GameplayStarted?.Invoke();
+    }
+
+    void EndLevelWithDelay() {
+        if(_isLevelEnds) return;
+        _isLevelEnds = true;
+        StartCoroutine(EndLevel());
     }
     
     IEnumerator EndLevel() {
