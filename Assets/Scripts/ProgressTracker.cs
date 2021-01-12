@@ -20,6 +20,12 @@ public class ProgressTracker : MonoBehaviour {
         GameManager.Instance.NewLevelStarted += OnNewLevelStarted;
     }
 
+    void OnDestroy() {
+        LevelBuilder.Instance.PlayerSpawned -= OnPlayerSpawned;
+        GameManager.Instance.GameplayStarted -= OnGameplayStarted;
+        GameManager.Instance.NewLevelStarted -= OnNewLevelStarted;
+    }
+
     void FixedUpdate() {
         if(_isNeedToCount)
         CountProgression();

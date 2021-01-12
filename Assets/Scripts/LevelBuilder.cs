@@ -16,6 +16,7 @@ public class LevelBuilder : MonoBehaviour {
     [SerializeField] Vector3 _planeStartPosition = default, _playerStartPosition = default;
     [SerializeField] int _planePosPerLevelIncreaser = default;
     [SerializeField] GameObject _playerPrefub = default;
+    [SerializeField] List<int> _listOfLastLevelsOnTiles = default;
 
     static LevelBuilder _instance;
     Vector3 _planeSpawnPosition;
@@ -52,8 +53,14 @@ public class LevelBuilder : MonoBehaviour {
 
     Tile GetNewTile() {
         if (_isDebug) return _debugTile;
-        int i = Random.Range(0, _tilesLibrary.Count);
-        return _tilesLibrary[i];
+        int i = 0;
+        while (_currentLevelNumber > _listOfLastLevelsOnTiles[i]) {
+            i++;
+        }
+        
+        if (i < _tilesLibrary.Count)
+            return _tilesLibrary[i];
+        return _tilesLibrary[Random.Range(0, _tilesLibrary.Count)];
     }
 
     void CountPlanePosition() {

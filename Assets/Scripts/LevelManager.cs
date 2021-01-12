@@ -16,10 +16,18 @@ public class LevelManager : MonoBehaviour {
 
     void Awake() {
         _instance = this;
-        _currentLevelNumber = PlayerPrefs.GetInt(CURRENT_LEVEL, 0);
+        _currentLevelNumber = PlayerPrefs.GetInt(CURRENT_LEVEL, 1);
     }
 
-    public void CompleteLevel() {
+    void Start() {
+        GameManager.Instance.LevelCompleted += OnLevelCompleted;
+    }
+
+    void OnDestroy() {
+        GameManager.Instance.LevelCompleted -= OnLevelCompleted;
+    }
+
+    void OnLevelCompleted() {
         _currentLevelNumber++;
         PlayerPrefs.SetInt(CURRENT_LEVEL, _currentLevelNumber);
         LevelCompleted?.Invoke(_currentLevelNumber);
