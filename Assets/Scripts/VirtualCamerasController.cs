@@ -8,10 +8,12 @@ public class VirtualCamerasController : MonoBehaviour {
    void Awake() {
       _cameras = GetComponentsInChildren<CinemachineVirtualCamera>();
       LevelBuilder.Instance.PlayerSpawned += OnPlayerSpawned;
+      GameManager.Instance.PlayerCrashed += OnPlayerCrashed;
    }
 
    void OnDestroy() {
       LevelBuilder.Instance.PlayerSpawned -= OnPlayerSpawned;
+      GameManager.Instance.PlayerCrashed -= OnPlayerCrashed;
    }
 
    void OnPlayerSpawned(Transform player) {
@@ -22,6 +24,13 @@ public class VirtualCamerasController : MonoBehaviour {
       foreach (CinemachineVirtualCamera camera in _cameras) {
          camera.LookAt = player;
          camera.Follow = player;
+      }
+   }
+
+   void OnPlayerCrashed() {
+      foreach (CinemachineVirtualCamera camera in _cameras) {
+         camera.LookAt = null;
+         camera.Follow = null;
       }
    }
 }

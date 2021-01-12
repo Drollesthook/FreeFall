@@ -1,6 +1,4 @@
-﻿using Lean.Pool;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ConstructionSpawnPoint : MonoBehaviour {
     [SerializeField] int __lastEasyLevel = default;

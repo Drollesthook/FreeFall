@@ -20,7 +20,7 @@ public class LevelBuilder : MonoBehaviour {
 
     static LevelBuilder _instance;
     Vector3 _planeSpawnPosition;
-    int _currentLevelNumber;
+    int _currentLevelNumber, _lastFixedLevel;
     GameObject _currentPlayer;
 
     void Awake() {
@@ -30,6 +30,7 @@ public class LevelBuilder : MonoBehaviour {
     void Start() {
         GameManager.Instance.NewLevelStarted += OnNewLevelStarted;
         GameManager.Instance.GameplayStarted += OnGameplayStarted;
+        _lastFixedLevel = _listOfLastLevelsOnTiles[_listOfLastLevelsOnTiles.Count - 1];
     }
 
     void OnDestroy() {
@@ -54,13 +55,14 @@ public class LevelBuilder : MonoBehaviour {
     Tile GetNewTile() {
         if (_isDebug) return _debugTile;
         int i = 0;
-        while (_currentLevelNumber > _listOfLastLevelsOnTiles[i]) {
-            i++;
+        if (_currentLevelNumber <= _lastFixedLevel) {
+            while (_currentLevelNumber > _listOfLastLevelsOnTiles[i]) {
+                i++;
+            }
         }
-        
-        if (i < _tilesLibrary.Count)
-            return _tilesLibrary[i];
-        return _tilesLibrary[Random.Range(0, _tilesLibrary.Count)];
+        else i = Random.Range(0, _tilesLibrary.Count);
+
+        return _tilesLibrary[i];
     }
 
     void CountPlanePosition() {
