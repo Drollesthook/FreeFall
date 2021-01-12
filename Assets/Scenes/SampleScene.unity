@@ -2145,7 +2145,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 118, y: 347}
+  m_AnchoredPosition: {x: -66, y: 170}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1080691663
@@ -2168,7 +2168,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e30d5b066661353498ebe3fdddaeed5d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 66be8707d4bf6e1428e1601167e16cc3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2236,6 +2236,11 @@ MonoBehaviour:
   _crashScreen: {fileID: 936722131}
   _currentLevelText: {fileID: 1775709800}
   _currentGoldText: {fileID: 0}
+  _currentLevelBG: {fileID: 2146974044}
+  _currentLevelBGAmeture: {fileID: 21300000, guid: eca8be1bb709dd049a9e47300a169f57,
+    type: 3}
+  _currentLevelBGPro: {fileID: 21300000, guid: 176aaf3c8fafa9f49afbc0d2963093f3, type: 3}
+  _proLevel: 7
 --- !u!1 &1246391885
 GameObject:
   m_ObjectHideFlags: 0
@@ -2568,7 +2573,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1297367039}
-  m_LocalRotation: {x: 0.18582535, y: 0.6822529, z: -0.18582535, w: 0.6822528}
+  m_LocalRotation: {x: 0.18582536, y: 0.6822528, z: -0.18582533, w: 0.6822529}
   m_LocalPosition: {x: -6.5, y: 7.700012, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3049,12 +3054,14 @@ MonoBehaviour:
   - {fileID: 4656356742333948759, guid: 19c69570f397d8d4e84de4f810c2339e, type: 3}
   - {fileID: 4656356742333948759, guid: 80f28d67bc51d7e44863baec25f3ed9e, type: 3}
   - {fileID: 4656356742333948759, guid: 7d6f54ed38c7bb2448bfa7351ee771da, type: 3}
-  - {fileID: 4656356742333948759, guid: 2a26f60bbd840274682d305279c623f4, type: 3}
-  - {fileID: 4656356742333948759, guid: aebefb05f2a3e754f9207fb02c81cf22, type: 3}
+  - {fileID: 4656356742333948759, guid: 262caca78bc07dd4eb3cd9dce2d20da4, type: 3}
   _hardConstructions:
   - {fileID: 4656356742333948759, guid: 078c323ffca95fd468712d6c05b2a152, type: 3}
   - {fileID: 4656356742333948759, guid: 262caca78bc07dd4eb3cd9dce2d20da4, type: 3}
   - {fileID: 4656356742333948759, guid: dfa7c6d693120794ba0a093085ca3e6c, type: 3}
+  - {fileID: 4656356742333948759, guid: aebefb05f2a3e754f9207fb02c81cf22, type: 3}
+  - {fileID: 4656356742333948759, guid: 2a26f60bbd840274682d305279c623f4, type: 3}
+  - {fileID: 4656356742333948759, guid: 73b69946fce7cf248ab703987b413c49, type: 3}
 --- !u!1 &1654052195
 GameObject:
   m_ObjectHideFlags: 0

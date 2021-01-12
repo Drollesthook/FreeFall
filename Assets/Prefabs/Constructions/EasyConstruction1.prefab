@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _safeDistant: 35
   _activatedPosition: 4
-  _riseTime: 1
+  _riseTime: 0.5
   _delayTime: 0
   _playerMask:
     serializedVersion: 2

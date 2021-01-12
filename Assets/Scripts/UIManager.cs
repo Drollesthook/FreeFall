@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour {
     [SerializeField] Image _winScreen, _loseScreen;
     [SerializeField] GameObject _gameplayScreen, _mainMenuScreen, _crashScreen;
     [SerializeField] TMP_Text _currentLevelText, _currentGoldText;
+    [SerializeField] Image _currentLevelBG;
+    [SerializeField] Sprite _currentLevelBGAmeture, _currentLevelBGPro;
+    [SerializeField] int _proLevel;
     
     Color _endColor = new Color(255, 255, 255, 255);
     int _currentLevel;
@@ -72,5 +75,12 @@ public class UIManager : MonoBehaviour {
 
     void UpdateText() {
         _currentLevelText.text = _currentLevel + " ";
+        UpdateCurrentLevelBGSprite();
+    }
+    
+    void UpdateCurrentLevelBGSprite() {
+        if (_currentLevel < _proLevel)
+            _currentLevelBG.sprite = _currentLevelBGAmeture;
+        else _currentLevelBG.sprite = _currentLevelBGPro;
     }
 }

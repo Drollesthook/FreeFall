@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 2230301677070258909}
   - component: {fileID: 4403808605366634765}
   m_Layer: 9
-  m_Name: EasyConstruction2
+  m_Name: HardConstruction1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,7 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _safeDistant: 45
   _activatedPosition: 4
-  _riseTime: 1
+  _riseTime: 0.5
   _delayTime: 0
   _playerMask:
     serializedVersion: 2
