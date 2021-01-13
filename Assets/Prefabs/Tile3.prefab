@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94e0f218fc6fbda448cf857511eed1d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lastEasyLevel: 7
+  _lastEasyLevel: 5
   _isAdditionalPoint: 1
 --- !u!1 &2239884599967814836
 GameObject:
@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94e0f218fc6fbda448cf857511eed1d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lastEasyLevel: 7
+  _lastEasyLevel: 5
   _isAdditionalPoint: 1
 --- !u!1 &6903427228749650850
 GameObject:
@@ -358,7 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94e0f218fc6fbda448cf857511eed1d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lastEasyLevel: 7
+  _lastEasyLevel: 5
   _isAdditionalPoint: 1
 --- !u!1 &7758223682318339885
 GameObject:

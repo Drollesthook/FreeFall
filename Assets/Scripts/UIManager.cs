@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour {
     [SerializeField] Image _currentLevelBG;
     [SerializeField] Sprite _currentLevelBGAmeture, _currentLevelBGPro;
     [SerializeField] int _proLevel;
+    [SerializeField] Material _usualSkyboxMaterial, _proSkyboxMaterial;
     
     Color _endColor = new Color(255, 255, 255, 255);
     int _currentLevel;
@@ -40,6 +41,7 @@ public class UIManager : MonoBehaviour {
         DeactivateLevelEndedScreens();
         _gameplayScreen.SetActive(false);
         _mainMenuScreen.SetActive(true);
+        if (_currentLevel >= _proLevel) ChangeSkybox(_proSkyboxMaterial);
     }
 
     void OnGameplayStarted() {
@@ -82,5 +84,9 @@ public class UIManager : MonoBehaviour {
         if (_currentLevel < _proLevel)
             _currentLevelBG.sprite = _currentLevelBGAmeture;
         else _currentLevelBG.sprite = _currentLevelBGPro;
+    }
+
+    void ChangeSkybox(Material newMaterial) {
+        RenderSettings.skybox = newMaterial;
     }
 }

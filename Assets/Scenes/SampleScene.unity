@@ -241,12 +241,12 @@ MonoBehaviour:
   - {fileID: -1416918580107941129, guid: ecd8466f839df154ca561ff4d62b714d, type: 3}
   - {fileID: -1416918580107941129, guid: 54729206a4e99cc459be5c6067cf3d24, type: 3}
   _currentPlane: {fileID: 544901302694819296}
-  _planeStartPosition: {x: 300, y: 9.9, z: 0}
+  _planeStartPosition: {x: 200, y: 9.9, z: 0}
   _playerStartPosition: {x: 0, y: 1, z: 0}
   _planePosPerLevelIncreaser: 20
   _playerPrefub: {fileID: 4030858214418799677, guid: 22f86653d0e18e14aa5953eb493dc21f,
     type: 3}
-  _listOfLastLevelsOnTiles: 0200000004000000
+  _listOfLastLevelsOnTiles: 0200000005000000
   _constructionsLayerMask:
     serializedVersion: 2
     m_Bits: 2048
@@ -2096,7 +2096,10 @@ MonoBehaviour:
   _currentLevelBGAmeture: {fileID: 21300000, guid: eca8be1bb709dd049a9e47300a169f57,
     type: 3}
   _currentLevelBGPro: {fileID: 21300000, guid: 176aaf3c8fafa9f49afbc0d2963093f3, type: 3}
-  _proLevel: 7
+  _proLevel: 5
+  _usualSkyboxMaterial: {fileID: 2100000, guid: 617d9be015db68348a623b01ea51a8c5,
+    type: 2}
+  _proSkyboxMaterial: {fileID: 2100000, guid: 3930fc89a28b29746bde6a2389a513e0, type: 2}
 --- !u!1 &1246391885
 GameObject:
   m_ObjectHideFlags: 0
@@ -2429,7 +2432,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1297367039}
-  m_LocalRotation: {x: 0.18437354, y: 0.68264663, z: -0.18437351, w: 0.6826467}
+  m_LocalRotation: {x: 0.18437356, y: 0.68264663, z: -0.18437353, w: 0.6826467}
   m_LocalPosition: {x: -4, y: 6.200012, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
