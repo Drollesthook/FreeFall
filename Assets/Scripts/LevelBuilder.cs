@@ -17,11 +17,14 @@ public class LevelBuilder : MonoBehaviour {
     [SerializeField] int _planePosPerLevelIncreaser = default;
     [SerializeField] GameObject _playerPrefub = default;
     [SerializeField] List<int> _listOfLastLevelsOnTiles = default;
+    [SerializeField] LayerMask _constructionsLayerMask = default;
+    [SerializeField] int _safeDistanceForStart = default;
 
     static LevelBuilder _instance;
     Vector3 _planeSpawnPosition;
     int _currentLevelNumber, _lastFixedLevel;
     GameObject _currentPlayer;
+    Collider[] _constructionsToPrespawn;
 
     void Awake() {
         _instance = this;
@@ -86,5 +89,22 @@ public class LevelBuilder : MonoBehaviour {
 
     void OnGameplayStarted() {
         SpawnPlane();
+        GetConstructionsToPrespawn();
+        PrespawnConstructions();
+    }
+
+    void GetConstructionsToPrespawn() {
+        float playerXPos = _currentPlayer.transform.position.x + _safeDistanceForStart,
+              planeXPos = _currentPlane.transform.position.x;
+
+        float overlapRadius = (planeXPos - playerXPos) * 0.5f,
+              overlapCenter = playerXPos + overlapRadius;
+        _constructionsToPrespawn = Physics.OverlapSphere(new Vector3(overlapCenter,0,0), overlapRadius, _constructionsLayerMask);
+    }
+
+    void PrespawnConstructions() {
+        foreach (var construction in _constructionsToPrespawn) {
+            construction.GetComponent<Construction>().StartCoroutine("ActivateWithDelay");
+        }
     }
 }

@@ -29,7 +29,7 @@ public class Construction : MonoBehaviour {
         DOTween.Kill(transform);
     }
 
-    void ActivateBoard() {
+    void Activate() {
         if (!IsPlayerFar()) return;
         transform.DOMoveY(_activatedPosition, _riseTime);
     }
@@ -50,9 +50,9 @@ public class Construction : MonoBehaviour {
         }
     }
 
-    IEnumerator ActivateWithDelay() {
+    public IEnumerator ActivateWithDelay() {
         yield return new WaitForSeconds(_delayTime);
-        ActivateBoard();
+        Activate();
         yield return new WaitForSeconds(_riseTime);
         DeactivateKinematicOnChildrens();
     }
