@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class ProgressTracker : MonoBehaviour {
     [SerializeField] Transform _plane;
     [SerializeField] Image _progressBar;
-    [SerializeField] TMP_Text _distanceText;
 
     Transform _player;
     float _startDistance, _currentDistance;
@@ -51,7 +50,6 @@ public class ProgressTracker : MonoBehaviour {
     void CountProgression() {
         _currentDistance = _plane.transform.position.x - _player.transform.position.x;
         _progressBar.fillAmount = (_startDistance - _currentDistance) / _startDistance;
-        _distanceText.text = _currentDistance.ToString("0.0");
     }
 
     IEnumerator CountStartDistanceWithDelay() {
