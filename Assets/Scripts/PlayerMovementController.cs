@@ -12,17 +12,19 @@ public class PlayerMovementController : MonoBehaviour {
     [SerializeField] float _turnRotationTime = default, _rotateToZeroTime;
     [SerializeField] float _speedMultiplier = default;
     [SerializeField] Transform _visual = default;
+    [SerializeField] float _safeHallToPlane = default;
 
-    bool _isPlayerMovable, _isPlayerControllable;
+    bool _isPlayerMovable, _isPlayerControllable, _isItTimeToCatchPlane;
     float _playerSpeed;
     Rigidbody _playerRb;
     Sequence _turnSequence;
-    
+
     Vector3 _playerStartPosition;
     Vector3 _currentSpeed;
 
     TouchState _currentTouchState;
     RotateState _currentRotateState;
+
     enum TouchState {
         Released,
         Left,
@@ -34,39 +36,41 @@ public class PlayerMovementController : MonoBehaviour {
         RotatedOnRight,
         Straight
     }
-    
+
     void Start() {
         _isPlayerMovable = true;
         _isPlayerControllable = false;
         _playerStartPosition = transform.position;
-        _playerSpeed = GameManager.Instance.WorldSpeed *_speedMultiplier;
+        _playerSpeed = GameManager.Instance.WorldSpeed * _speedMultiplier;
         GameManager.Instance.GameReseted += OnGameReseted;
         GameManager.Instance.LevelCompleted += OnLevelEnded;
-        GameManager.Instance.LevelFailed += OnLevelEnded;
         GameManager.Instance.PlayerCrashed += OnPlayerCrashed;
         GameManager.Instance.GameplayStarted += OnGameplayStarted;
+        GameManager.Instance.PlaneCaughtUp += OnPlaneCatched;
         _playerRb = GetComponent<Rigidbody>();
     }
 
     void OnDestroy() {
         GameManager.Instance.GameReseted -= OnGameReseted;
         GameManager.Instance.LevelCompleted -= OnLevelEnded;
-        GameManager.Instance.LevelFailed -= OnLevelEnded;
         GameManager.Instance.PlayerCrashed -= OnPlayerCrashed;
         GameManager.Instance.GameplayStarted -= OnGameplayStarted;
+        GameManager.Instance.PlaneCaughtUp -= OnPlaneCatched;
     }
 
     void FixedUpdate() {
-        if(!_isPlayerMovable) return;
+        if (!_isPlayerMovable) return;
         CalculateMoveVelocity();
         TurnClamper();
         MoveForwardRb();
+        RotateHandler();
+        if(!_isItTimeToCatchPlane) return;
+        TurnToZero();
     }
 
     void Update() {
         if (!_isPlayerControllable) return;
         HandleInput();
-        RotateHandler();
     }
 
     void RotateHandler() {
@@ -81,19 +85,19 @@ public class PlayerMovementController : MonoBehaviour {
             if (_currentRotateState != RotateState.RotatedOnLeft) {
                 RotateOnTurn(_XRotationAngle, _yRotationAngle);
                 _currentRotateState = RotateState.RotatedOnLeft;
-            }    
+            }
         }
-        
+
         if (_currentTouchState == TouchState.Right) {
             if (_currentRotateState != RotateState.RotatedOnRight) {
                 RotateOnTurn(-_XRotationAngle, -_yRotationAngle);
                 _currentRotateState = RotateState.RotatedOnRight;
-            }    
+            }
         }
     }
 
     void RotateOnTurn(float xAngle, float yAngle) {
-        Vector3 newrotateAngle= new Vector3(xAngle,yAngle,_visual.rotation.z);
+        Vector3 newrotateAngle = new Vector3(xAngle, yAngle, _visual.rotation.z);
         _visual.DORotate(newrotateAngle, _turnRotationTime);
     }
 
@@ -105,12 +109,12 @@ public class PlayerMovementController : MonoBehaviour {
     void MoveForwardRb() {
         _playerRb.velocity = _currentSpeed;
     }
-    
+
     void CalculateMoveVelocity() {
         var currentVelocity = _playerRb.velocity;
         _currentSpeed = new Vector3(_playerSpeed, currentVelocity.y, GetStrafeSpeed());
     }
-    
+
     float GetStrafeSpeed() {
         if (_currentTouchState == TouchState.Released) {
             return 0;
@@ -150,12 +154,29 @@ public class PlayerMovementController : MonoBehaviour {
         _isPlayerMovable = false;
         _isPlayerControllable = false;
         _playerSpeed = 0;
-        _playerRb.velocity = new Vector3(1,0,0);
+        _playerRb.velocity = Vector3.zero;
         RotateToZero();
+    }
+
+    void OnPlaneCatched() {
+        _isPlayerControllable = false;
+        RotateToZero();
+        _isItTimeToCatchPlane = true;
     }
 
     void OnGameplayStarted() {
         _isPlayerControllable = true;
+    }
+
+    void TurnToZero() {
+        if (transform.position.z < -_safeHallToPlane)
+            _currentTouchState = TouchState.Left;
+        else if (transform.position.z > _safeHallToPlane)
+            _currentTouchState = TouchState.Right;
+        else {
+            _currentTouchState = TouchState.Released;
+            _isItTimeToCatchPlane = false;
+        }
     }
     
     

@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-    public event Action NewLevelStarted, GameplayStarted, GameReseted, PlaneCaughtUp, LevelCompleted, LevelFailed, PlayerCrashed;
+    public event Action NewLevelStarted, GameplayStarted, GameReseted, PlaneCaughtUp, LevelCompleted, PlayerCrashed;
     public static GameManager Instance => _instance;
     public int WorldSpeed => _worldSpeed;
     
@@ -34,11 +34,6 @@ public class GameManager : MonoBehaviour {
     public void LevelCompletion() {
         EndLevelWithDelay();
         LevelCompleted?.Invoke();
-    }
-
-    public void LevelFailure() {
-        EndLevelWithDelay();
-        LevelFailed?.Invoke();
     }
 
     public void PlayerCrashes() {

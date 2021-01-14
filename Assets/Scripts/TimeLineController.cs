@@ -2,14 +2,13 @@
 using UnityEngine;
 
 public class TimeLineController : MonoBehaviour {
-    [SerializeField] PlayableDirector _winConditionPlayableDirector, _winCameraDirector, _failCameraDirector, _GameplayStartCameraDirector;
+    [SerializeField] PlayableDirector _winConditionPlayableDirector, _winCameraDirector, _GameplayStartCameraDirector;
 
 
     void Start() {
         GameManager.Instance.PlaneCaughtUp += OnPlaneCaughtUp;
         GameManager.Instance.NewLevelStarted += OnNewLevelStarted;
         GameManager.Instance.LevelCompleted += OnLevelCompleted;
-        GameManager.Instance.LevelFailed += OnLevelFailed;
         GameManager.Instance.GameplayStarted += OnGamePlayStarted;
     }
 
@@ -17,7 +16,6 @@ public class TimeLineController : MonoBehaviour {
         GameManager.Instance.PlaneCaughtUp -= OnPlaneCaughtUp;
         GameManager.Instance.NewLevelStarted -= OnNewLevelStarted;
         GameManager.Instance.LevelCompleted -= OnLevelCompleted;
-        GameManager.Instance.LevelFailed -= OnLevelFailed;
         GameManager.Instance.GameplayStarted -= OnGamePlayStarted;
     }
 
@@ -28,18 +26,12 @@ public class TimeLineController : MonoBehaviour {
     void OnNewLevelStarted() {
         _winConditionPlayableDirector.Stop();
         _winCameraDirector.Stop();
-        _failCameraDirector.Stop();
         _GameplayStartCameraDirector.Stop();
     }
 
     void OnLevelCompleted() {
         _winConditionPlayableDirector.Stop();
         _winCameraDirector.Play();
-    }
-
-    void OnLevelFailed() {
-        _winConditionPlayableDirector.Stop();
-        _failCameraDirector.Play();
     }
 
     void OnGamePlayStarted() {

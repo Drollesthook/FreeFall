@@ -7,6 +7,8 @@ using Random = UnityEngine.Random;
 public class LevelBuilder : MonoBehaviour {
     public event Action<Transform> PlayerSpawned;
     public static LevelBuilder Instance => _instance;
+    
+    public Transform CurrentPlayer => _currentPlayer.transform;
 
     [SerializeField] bool _isDebug = default;
     [SerializeField] Tile _debugTile = default;

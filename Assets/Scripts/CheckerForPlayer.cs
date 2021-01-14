@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 
 public class CheckerForPlayer : MonoBehaviour {
-    [SerializeField] bool _isThisWinTrigger;
-
     GameObject _player;
 
     bool _isLevelCompleted;
@@ -22,15 +20,11 @@ public class CheckerForPlayer : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if (_isLevelCompleted) return;
         if (!other.CompareTag("Player")) return;
-        if (_isThisWinTrigger) {
+            _isLevelCompleted = true;
             _player = other.gameObject;
             DeactivatePlayer();
             GameManager.Instance.LevelCompletion();
-            _isLevelCompleted = true;
-        } else {
-            GameManager.Instance.LevelFailure();
-            _isLevelCompleted = true;
-        }
+        
     }
 
     void DeactivatePlayer() {

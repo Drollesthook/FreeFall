@@ -14,13 +14,11 @@ public class PlaneMovementController : MonoBehaviour {
         _planeMoveDirection = Vector3.right;
         GameManager.Instance.NewLevelStarted += OnNewLevelStarted;
         GameManager.Instance.LevelCompleted += OnLevelEnded;
-        GameManager.Instance.LevelFailed += OnLevelEnded;
     }
 
     void OnDestroy() {
         GameManager.Instance.NewLevelStarted -= OnNewLevelStarted;
         GameManager.Instance.LevelCompleted -= OnLevelEnded;
-        GameManager.Instance.LevelFailed -= OnLevelEnded;
     }
 
     void Update() {

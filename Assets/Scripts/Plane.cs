@@ -9,6 +9,7 @@ public class Plane : MonoBehaviour {
     PlaneMovementController _planeMovementController;
 
     bool _isPlayerNearby;
+    Transform _currentPlayer;
     
     void Awake() {
         _planeMovementController = gameObject.GetComponent<PlaneMovementController>();
