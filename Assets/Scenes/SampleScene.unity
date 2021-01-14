@@ -237,16 +237,14 @@ MonoBehaviour:
   _debugTile: {fileID: -1416918580107941129, guid: a78a5582dd89e2c45ab10d8ebd21b154,
     type: 3}
   _tileSpawnManager: {fileID: 1677412315}
-  _tilesLibrary:
-  - {fileID: -1416918580107941129, guid: ecd8466f839df154ca561ff4d62b714d, type: 3}
-  - {fileID: -1416918580107941129, guid: 54729206a4e99cc459be5c6067cf3d24, type: 3}
+  _roadTile: {fileID: -1416918580107941129, guid: 54729206a4e99cc459be5c6067cf3d24,
+    type: 3}
   _currentPlane: {fileID: 544901302694819296}
   _planeStartPosition: {x: 200, y: 9.9, z: 0}
   _playerStartPosition: {x: 0, y: 1, z: 0}
   _planePosPerLevelIncreaser: 20
   _playerPrefub: {fileID: 4030858214418799677, guid: 22f86653d0e18e14aa5953eb493dc21f,
     type: 3}
-  _listOfLastLevelsOnTiles: 0200000005000000
   _constructionsLayerMask:
     serializedVersion: 2
     m_Bits: 2048
@@ -1845,7 +1843,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.036309186, y: 0.9296022, z: 0.0953009, w: 0.35417393}
+  m_LocalRotation: {x: -0.036309183, y: 0.9296022, z: 0.095300876, w: 0.35417396}
   m_LocalPosition: {x: -4.6600146, y: 2.95, z: 5.800007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2605,7 +2603,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1549749177}
-  m_LocalRotation: {x: -0.036309186, y: 0.9296022, z: 0.0953009, w: 0.35417393}
+  m_LocalRotation: {x: -0.036309183, y: 0.9296022, z: 0.095300876, w: 0.35417396}
   m_LocalPosition: {x: -4.6600037, y: 2.9500122, z: 5.800003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

@@ -7,24 +7,21 @@ using Random = UnityEngine.Random;
 public class LevelBuilder : MonoBehaviour {
     public event Action<Transform> PlayerSpawned;
     public static LevelBuilder Instance => _instance;
-    
-    public Transform CurrentPlayer => _currentPlayer.transform;
 
     [SerializeField] bool _isDebug = default;
     [SerializeField] Tile _debugTile = default;
     [SerializeField] TileSpawnManager _tileSpawnManager = default;
-    [SerializeField] List<Tile> _tilesLibrary = default;
+    [SerializeField] Tile _roadTile = default;
     [SerializeField] Plane _currentPlane = default;
     [SerializeField] Vector3 _planeStartPosition = default, _playerStartPosition = default;
     [SerializeField] int _planePosPerLevelIncreaser = default;
     [SerializeField] GameObject _playerPrefub = default;
-    [SerializeField] List<int> _listOfLastLevelsOnTiles = default;
     [SerializeField] LayerMask _constructionsLayerMask = default;
     [SerializeField] int _safeDistanceForStart = default;
 
     static LevelBuilder _instance;
     Vector3 _planeSpawnPosition;
-    int _currentLevelNumber, _lastFixedLevel;
+    int _currentLevelNumber;
     GameObject _currentPlayer;
     Collider[] _constructionsToPrespawn;
 
@@ -35,7 +32,6 @@ public class LevelBuilder : MonoBehaviour {
     void Start() {
         GameManager.Instance.NewLevelStarted += OnNewLevelStarted;
         GameManager.Instance.GameplayStarted += OnGameplayStarted;
-        _lastFixedLevel = _listOfLastLevelsOnTiles[_listOfLastLevelsOnTiles.Count - 1];
     }
 
     void OnDestroy() {
@@ -58,16 +54,7 @@ public class LevelBuilder : MonoBehaviour {
     }
 
     Tile GetNewTile() {
-        if (_isDebug) return _debugTile;
-        int i = 0;
-        if (_currentLevelNumber <= _lastFixedLevel) {
-            while (_currentLevelNumber > _listOfLastLevelsOnTiles[i]) {
-                i++;
-            }
-        }
-        else i = Random.Range(0, _tilesLibrary.Count);
-
-        return _tilesLibrary[i];
+        return _isDebug ? _debugTile : _roadTile;
     }
 
     void CountPlanePosition() {

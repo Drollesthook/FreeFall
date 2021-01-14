@@ -1442,7 +1442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2037c4e1a1c38f4c89f6cfd27495b3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerGravityAdditionalForce: 100
+  _playerGravityAdditionalForce: 75
   _tramplinAdditionalForce: 200
   _raycastRange: 1.5
   _groundMask:
