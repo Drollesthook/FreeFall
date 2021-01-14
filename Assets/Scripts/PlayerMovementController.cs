@@ -154,8 +154,7 @@ public class PlayerMovementController : MonoBehaviour {
         _isPlayerMovable = false;
         _isPlayerControllable = false;
         _playerSpeed = 0;
-        _playerRb.velocity = Vector3.zero;
-        _playerRb.useGravity = false;
+        _playerRb.isKinematic = true;
         RotateToZero();
     }
 
