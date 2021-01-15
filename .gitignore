@@ -12,6 +12,10 @@ Logs/
 # Rider Generated
 Assets/Plugins/Editor/JetBrains*
 
+# GUI and FX
+Assets/GUIKitCasualGame/
+Assets/EpicToonFX/
+
 # Visual Studio cache directory
 .vs/
 .DS_Store

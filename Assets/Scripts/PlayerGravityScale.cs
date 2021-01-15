@@ -3,8 +3,8 @@
 using UnityEngine;
 
 public class PlayerGravityScale : MonoBehaviour {
-    [SerializeField] int _playerGravityAdditionalForce = default, _tramplinAdditionalForce = default;
-    [SerializeField] float _raycastRange = default;
+    [SerializeField] int _playerGravityAdditionalForce = default, _playerPlaneAdditionalForce = default, _tramplinAdditionalForce = default;
+    [SerializeField] float _raycastInAirRange = default;
     [SerializeField] LayerMask _groundMask = default;
     [SerializeField] Transform _visual = default;
     [SerializeField] float _rotationTime = default;
@@ -13,26 +13,38 @@ public class PlayerGravityScale : MonoBehaviour {
     Rigidbody _rigidbody;
     RaycastHit _hit;
     float _currentAngle;
+    int _playerUsualForce;
 
     void Start() {
         _currentAngle = 0;
         _rigidbody = gameObject.GetComponent<Rigidbody>();
+        GameManager.Instance.PlaneCaughtUp += OnPlaneCaught;
+    }
+
+    void OnDestroy() {
+        GameManager.Instance.PlaneCaughtUp -= OnPlaneCaught;
     }
 
     void Update() {
         if (IsInAir()) {
-            CreateAdditionalGravityForce();
+            CreateAdditionalGravityForce(_playerGravityAdditionalForce);
             RotateBike(0);
+        } else {
+            CreateAdditionalGravityForce(_playerUsualForce);
+            RotateBike(_hit.transform.eulerAngles.z);
         }
-        else RotateBike(_hit.transform.eulerAngles.z);
+    }
+
+    void OnPlaneCaught() {
+        _playerUsualForce = _playerPlaneAdditionalForce;
     }
 
     bool IsInAir() {
-        return !Physics.Raycast(_raycastPoint.position, new Vector3(0,-1,0), out _hit, _raycastRange, _groundMask);
+        return !Physics.Raycast(_raycastPoint.position, new Vector3(0,-1,0), out _hit, _raycastInAirRange, _groundMask);
     }
 
-    void CreateAdditionalGravityForce() {
-        _rigidbody.AddForce(new Vector3(1,-1,0) * _playerGravityAdditionalForce);
+    void CreateAdditionalGravityForce(int force) {
+        _rigidbody.AddForce(new Vector3(1,-1,0) * force);
     }
 
     void RotateBike(float angle) {

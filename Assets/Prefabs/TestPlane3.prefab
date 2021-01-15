@@ -226,7 +226,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5543107086318465090}
   m_LocalRotation: {x: -0.5171452, y: -0.48224562, z: 0.48224562, w: 0.5171452}
-  m_LocalPosition: {x: 5.824613, y: 0.9988859, z: -0.07985419}
+  m_LocalPosition: {x: 5.805, y: 1.014, z: -0.104}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7179420269888609127}
@@ -471,8 +471,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.6991389, y: 1, z: 1}
+  m_Center: {x: 0.59693664, y: -6.2114795e-16, z: -0.00000006037077}
 --- !u!114 &7179420267994254008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1168,7 +1168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _planeSpeedReducer: 10
-  _planeFinaleSpeedReducer: 8
+  _planeFinaleSpeedReducer: 7
   _playerMask:
     serializedVersion: 2
     m_Bits: 256
